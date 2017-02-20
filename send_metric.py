@@ -1,15 +1,18 @@
 #!/usr/bin/python
 # coding=utf-8
 from influxdb import InfluxDBClient
-import time
+
 
 class InfluxDB(object):
+    """
+    Connect to influxdb and send metric
+    """
 
     def __init__(self, host, port, username, password,
                  database, metrics, path, data_center
                  ):
         """
-        Init 
+        Init
         """
         self.host = host
         self.port = port
@@ -35,8 +38,7 @@ class InfluxDB(object):
         Send metric to database
         """
         metrics = []
-        time_stamp = time.time()
-        # build metric 
+        # build metric
         for m in self.metrics:
             metrics.append({
                 "measurement": self.path,
@@ -44,7 +46,6 @@ class InfluxDB(object):
                     "data_center": self.data_center,
                     "ip": m['ip']
                 },
-                #"time": time_stamp,
                 "fields": {
                     "value": m['time']
                 }
@@ -54,4 +55,3 @@ class InfluxDB(object):
 
     def dis_connect(self):
         self.influx = None
-        
