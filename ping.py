@@ -170,7 +170,7 @@ def main():
             subnets = f.readlines()
             start_time = time.time()
             for subnet in subnets:
-                ping = PingSubnet(subnet, num_process=num_process)
+                ping = PingSubnet(subnet, num_process=int(num_process))
 
                 out = ping.process()
                 r = redis.Redis(host=redis_creds['host'],
