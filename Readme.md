@@ -2,18 +2,37 @@
 
 All resource about cdn what we research in KMA
 
-##### How to use
+##### How to install
 
 - Requirements
-  - influxdb
-  - redis
+  - influxdb-server
+  - redis-server
+
+- Install python library
+
+```sh
+pip install -r requirements.txt
+```
+
+- Install fping toool
+
+  On Ubuntu
+
+```
+apt-get install -y fping
+```
+  On CentOS, RHEL
+
+```sh
+yum install -f fping
+```
 
 Example Config file '/etc/ping.conf'
 
 ```
 [DEFAULT]
 dc_name = Ha-Noi
-num_process = 8
+process = 8
 
 [influxdb]
 host = influxdb.sapham.net
@@ -23,7 +42,7 @@ password = xxxxx
 
 [redis]
 host = 45.124.93.137
-passsword = xxxxx
+password = xxxxx
 ```
 
 ##### How to run
