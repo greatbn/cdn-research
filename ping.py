@@ -189,12 +189,13 @@ def main():
                               password=influxdb_creds['password'],
                               database=influxdb_creds['database'])
             for i in range(r.llen(redis_key)):
-                influx.send_metric(metrics=r.lpop(redis_key),
+                influx.send_metric(raw_metrics=r.lpop(redis_key),
                                    path=influx_path,
                                    data_center=data_center)
+            influx.dis_connect()
             LOG.info('Ping done')
     except Exception as e:
-        LOG.error('Open file range IP failed: ' + e.message)
+        LOG.error('Have an error: ' + e.message)
 
 
 if __name__ == '__main__':

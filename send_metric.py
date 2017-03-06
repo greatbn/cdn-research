@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # coding=utf-8
+import json
 from influxdb import InfluxDBClient
 
 
@@ -29,10 +30,12 @@ class InfluxDB(object):
                               username=self.username, password=self.password,
                               database=self.database)
 
-    def send_metric(self, metrics, path, data_center):
+    def send_metric(self, raw_metrics, path, data_center):
         """
         Send metric to database
         """
+        raw_metrics = raw_metrics.replace("'", '"')
+        raw_metrics = json.loads(raw_metrics)
         metrics = []
         # build metric
         for m in metrics:
@@ -47,7 +50,6 @@ class InfluxDB(object):
                 }
             })
         self.influx.write_points(metrics)
-        self.dis_connect()
 
     def dis_connect(self):
         self.influx = None
