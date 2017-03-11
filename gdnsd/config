@@ -1,0 +1,109 @@
+options => {
+    tcp_threads => 4    # Sử dụng SO_REUSEPORT
+    udp_threads => 4    # https://github.com/gdnsd/gdnsd/wiki/GdnsdConfig#user-content-udp_threads
+    edns_client_subnet => true    # http://www.afasterinternet.com/
+    zones_default_ttl => 3600
+    log_stats => 86400
+    listen => [0.0.0.0]
+    http_listen => [0.0.0.0]
+}
+
+plugins => {
+    geoip => {
+        maps => {
+            generic-map => {
+                nets => /etc/gdnsd/nets.1
+                geoip_db => /etc/gdnsd/GeoCity.dat
+                datacenters => [dc-hanoi dc-hcm]
+                map => {
+                    # Use ISO 3166-2 official names
+                    AS => {
+                        VN => {
+                            00 => [dc-hanoi dc-hcm]    # Không xác định
+                            44 => [dc-hanoi dc-hcm]    # Ha Noi
+                            13 => [dc-hanoi dc-hcm]    # Hai Phong
+                            72 => [dc-hanoi dc-hcm]    # Bac Kan
+                            71 => [dc-hanoi dc-hcm]    # Bac Giang
+                            74 => [dc-hanoi dc-hcm]    # Bac Ninh
+                            05 => [dc-hanoi dc-hcm]    # Cao Bang
+                            92 => [dc-hanoi dc-hcm]    # Dien Bien
+                            50 => [dc-hanoi dc-hcm]    # Ha Giang
+                            80 => [dc-hanoi dc-hcm]    # Ha Nam
+                            79 => [dc-hanoi dc-hcm]    # Hai Duong
+                            53 => [dc-hanoi dc-hcm]    # Hoa Binh
+                            81 => [dc-hanoi dc-hcm]    # Hung Yen
+                            89 => [dc-hanoi dc-hcm]    # Lai Chau
+                            39 => [dc-hanoi dc-hcm]    # Lang Son
+                            90 => [dc-hanoi dc-hcm]    # Lao Cai
+                            82 => [dc-hanoi dc-hcm]    # Nam Dinh
+                            59 => [dc-hanoi dc-hcm]    # Ninh Binh
+                            83 => [dc-hanoi dc-hcm]    # Phu Tho
+                            34 => [dc-hanoi dc-hcm]    # Thanh Hoa
+                            30 => [dc-hanoi dc-hcm]    # Quang Ninh
+                            32 => [dc-hanoi dc-hcm]    # Son La
+                            35 => [dc-hanoi dc-hcm]    # Thai Binh
+                            85 => [dc-hanoi dc-hcm]    # Thai Nguyen
+                            68 => [dc-hanoi dc-hcm]    # Tuyen Quang
+                            86 => [dc-hanoi dc-hcm]    # Vinh Phuc
+                            70 => [dc-hanoi dc-hcm]    # Yen Bai
+                            52 => [dc-hanoi dc-hcm]    # Ha Tinh
+                            58 => [dc-hanoi dc-hcm]    # Nghe An
+                            62 => [dc-hanoi dc-hcm]    # Quang Binh
+                            64 => [dc-hanoi dc-hcm]    # Quang Tri
+                            20 => [dc-hcm dc-hanoi]    # TP. HCM
+                            78 => [dc-hcm dc-hanoi]    # Da Nang
+                            46 => [dc-hcm dc-hanoi]    # Binh Dinh
+                            76 => [dc-hcm dc-hanoi]    # Binh Phuoc
+                            47 => [dc-hcm dc-hanoi]    # Binh Thuan
+                            88 => [dc-hcm dc-hanoi]    # Dac Lak
+                            91 => [dc-hcm dc-hanoi]    # Dac Nong
+                            49 => [dc-hcm dc-hanoi]    # Gia Lai
+                            54 => [dc-hcm dc-hanoi]    # Khanh Hoa
+                            55 => [dc-hcm dc-hanoi]    # Kon Tum
+                            23 => [dc-hcm dc-hanoi]    # Lam Dong
+                            60 => [dc-hcm dc-hanoi]    # Ninh Thuan
+                            61 => [dc-hcm dc-hanoi]    # Phu Yen
+                            84 => [dc-hcm dc-hanoi]    # Quang Nam
+                            63 => [dc-hcm dc-hanoi]    # Quang Ngai
+                            66 => [dc-hcm dc-hanoi]    # Hue
+                            75 => [dc-hcm dc-hanoi]    # Binh Duong
+                            87 => [dc-hcm dc-hanoi]    # Can Tho
+                            01 => [dc-hcm dc-hanoi]    # An Giang
+                            45 => [dc-hcm dc-hanoi]    # Vung Tau
+                            73 => [dc-hcm dc-hanoi]    # Bac Lieu
+                            03 => [dc-hcm dc-hanoi]    # Ben Tre
+                            77 => [dc-hcm dc-hanoi]    # Ca Mau
+                            43 => [dc-hcm dc-hanoi]    # Dong Nai
+                            09 => [dc-hcm dc-hanoi]    # Dong Thap
+                            93 => [dc-hcm dc-hanoi]    # Hau Giang
+                            21 => [dc-hcm dc-hanoi]    # Kien Giang
+                            24 => [dc-hcm dc-hanoi]    # Long An
+                            65 => [dc-hcm dc-hanoi]    # Soc Trang
+                            33 => [dc-hcm dc-hanoi]    # Tay Ninh
+                            37 => [dc-hcm dc-hanoi]    # Tien Giang
+                            67 => [dc-hcm dc-hanoi]    # Tra Vinh
+                            69 => [dc-hcm dc-hanoi]    # Vinh Long
+                        }
+                        default => [dc-hanoi dc-hcm]   # Các nước Asian
+                    }
+                    default => [dc-hanoi dc-hcm]       # Các châu lục khác
+                }
+            }
+        }
+
+        resources => {
+            # CDN KMA
+            testcdn1 => {
+                map => generic-map
+                dcmap => {
+                    dc-hanoi => [
+                        123.31.11.38
+                    ]
+                    dc-hcm => [
+                        146.196.65.172
+                    ]
+                }
+            }
+        }
+    }
+}
