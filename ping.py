@@ -159,7 +159,6 @@ def main():
     """
     config_file = "/etc/ping.conf"
     default, influxdb_creds, redis_creds = get_config(config_file)
-
     influx_path = 'ping'
     data_center = default['data_center']
     num_process = default['num_process']
@@ -195,7 +194,7 @@ def main():
             influx.dis_connect()
             LOG.info('Ping done')
     except Exception as e:
-        LOG.error('Have an error: ' + e.message)
+        LOG.error('Something error: ' + e.message)
 
 
 if __name__ == '__main__':
