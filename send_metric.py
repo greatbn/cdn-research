@@ -1,8 +1,7 @@
 #!/usr/bin/python
 # coding=utf-8
-import json
 from influxdb import InfluxDBClient
-
+import json
 
 class InfluxDB(object):
     """
@@ -38,7 +37,7 @@ class InfluxDB(object):
         raw_metrics = json.loads(raw_metrics)
         metrics = []
         # build metric
-        for m in metrics:
+        for m in raw_metrics:
             metrics.append({
                 "measurement": path,
                 "tags": {
